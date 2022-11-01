@@ -37,18 +37,20 @@ class _HomeState extends State<Home> {
             final color = colors[index];
             isBought ? Colors.red : Colors.green;
             return Dismissible(
-              key: UniqueKey(),
-              onDismissed: (DismissDirection direction) {
-                if (direction == DismissDirection.endToStart) {
+              confirmDismiss: (direction) async {
+                if (direction == DismissDirection.startToEnd) {
                   setState(() {
                     colors[index] = Colors.red;
                   });
-                } else {
+                  return false;
+                } else if (direction == DismissDirection.endToStart) {
                   setState(() {
                     colors[index] = Colors.green;
                   });
+                  return false;
                 }
               },
+              key: UniqueKey(),
               child: ListTile(
                 title: Container(color: colors[index], child: Text(item)),
               ),
